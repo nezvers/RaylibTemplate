@@ -67,10 +67,10 @@ target_link_libraries(${PROJECT_NAME} PRIVATE raylib)
 # Setting RESOURCES_PATH
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
   SET(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -O0 -DDEBUG")
-  # Set the asset path macro to the absolute path on the dev machine
+  # Set the resources path macro to the absolute path on the dev machine
   target_compile_definitions(${PROJECT_NAME} PUBLIC RESOURCES_PATH="${CMAKE_CURRENT_SOURCE_DIR}/resources/")
 else()
-  # Set the asset path macro in release mode to a relative path that assumes the assets folder is in the same directory as the game executable
+  # Set the resources path macro in release mode to a relative path that assumes the assets folder is in the same directory as the game executable
   target_compile_definitions(${PROJECT_NAME} PUBLIC RESOURCES_PATH="./resources/")
 endif()
 
@@ -85,7 +85,6 @@ if (${PLATFORM} STREQUAL "Web")
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -s USE_GLFW=3 -s ASSERTIONS=1 -s WASM=1 -Os -Wall -s TOTAL_MEMORY=67108864 -s FORCE_FILESYSTEM=1 --preload-file resources/ --shell-file ../minshell.html")
     set(CMAKE_EXECUTABLE_SUFFIX ".html") # This line is used to set your executable to build with the emscripten html template so that you can directly open it.
     set_target_properties(${PROJECT_NAME} PROPERTIES SUFFIX ".html")
-    target_compile_definitions(${PROJECT_NAME} PUBLIC ASSETS_PATH="/assets/") # Set the asset path macro in release mode to a relative path that assumes the assets folder is in the same directory as the game executable
     target_compile_definitions(${PROJECT_NAME} PUBLIC ASSETS_PATH="/resources/") # Set the resources path macro in release mode to a relative path that assumes the resources folder is in the same directory as the game executable
 endif()
 
