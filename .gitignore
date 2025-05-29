@@ -1,4 +1,4 @@
-./vs
-./out
-./build-emc
-./build
+vs/
+out/
+build-emc/
+build/
