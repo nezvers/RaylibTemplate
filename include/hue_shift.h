@@ -1,21 +1,22 @@
-#pragma once
+#ifndef HUE_SHIFT_H
+#define HUE_SHIFT_H
+
 #include <math.h>
-typedef unsigned char BYTE; //define an "integer" that only stores 0-255 value
 
-typedef struct _CRGB //Define a struct to store the 3 color values
-{
-  BYTE r;
-  BYTE g;
-  BYTE b;
-}CRGB;
+//Define a struct to store the 3 color values
+typedef struct{
+  unsigned char r;
+  unsigned char g;
+  unsigned char b;
+} CRGB;
 
-BYTE clamp(float v) //define a function to bound and round the input float value to 0-255
+unsigned char clamp(float v) //define a function to bound and round the input float value to 0-255
 {
   if (v < 0)
     return 0;
   if (v > 255)
     return 255;
-  return (BYTE)v;
+  return (unsigned char)v;
 }
 
 // Shift 0.0 to 1.0 wrapped
@@ -34,3 +35,5 @@ CRGB HueShift(const CRGB in, const float fHue)
   out.b = clamp(in.r * matrix[2][0] + in.g * matrix[2][1] + in.b * matrix[2][2]);
   return out;
 }
+
+#endif
