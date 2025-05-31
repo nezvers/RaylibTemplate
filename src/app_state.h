@@ -2,20 +2,22 @@
 #define GAME_H
 
 #include "stddef.h"
+#include "stdbool.h"
 
 typedef struct{
     void (*enter)();
     void (*update)();
     void (*exit)();
-} GameState;
+    bool (*stop_app)();
+} AppState;
 
 extern const char* window_title;
 extern const int screen_width;
 extern const int screen_height;
 
-extern GameState* current_game_state;
-extern GameState example_button;
+extern AppState* current_app_state;
+extern AppState example_button;
 
-void TransitionGameState(GameState* value);
+void TransitionGameState(AppState* value);
 
 #endif // GAME_H

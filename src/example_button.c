@@ -1,4 +1,4 @@
-#include "game.h"
+#include "app_state.h"
 #include "raylib.h"
 
 #define NUM_FRAMES  3       // Number of frames (rectangles) for the button sprite texture
@@ -12,6 +12,11 @@ Rectangle btnBounds;
 
 
 static void Enter(){
+    InitWindow(screen_width, screen_height, window_title);
+#ifndef PLATFORM_WEB
+    SetTargetFPS(60);
+#endif
+    
     InitAudioDevice();      // Initialize audio device
 
     fxButton = LoadSound(RESOURCES_PATH"buttonfx.wav");   // Load button sound
@@ -56,6 +61,8 @@ static void Exit(){
     UnloadTexture(button);
     UnloadSound(fxButton);
     CloseAudioDevice();
+
+    CloseWindow();
 }
 
-GameState example_button = {Enter, Update, Exit};
+AppState example_button = {Enter, Update, Exit, WindowShouldClose};

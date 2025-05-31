@@ -1,41 +1,36 @@
-#include "raylib.h"
-#include "game.h"
+#include "app_state.h"
 
-#if defined(PLATFORM_WEB)
+#ifdef PLATFORM_WEB
     #include <emscripten/emscripten.h>
 #endif
 
 void MainInit(){
-    InitWindow(screen_width, screen_height, window_title);
-    current_game_state->enter();
+    current_app_state->enter();
 }
 
 void MainUpdate(){
-    if (current_game_state->update != NULL){
-        current_game_state->update();
+    if (current_app_state->update != NULL){
+        current_app_state->update();
     }
 }
 
 void MainClose(){
-    if (current_game_state->exit != NULL){
-        current_game_state->exit();
+    if (current_app_state->exit != NULL){
+        current_app_state->exit();
     }
-    CloseWindow();
 }
 
 int main(void){
     MainInit();
     
-    #if defined(PLATFORM_WEB)
-        emscripten_set_main_loop(UpdateFrame, 0, 1);
-    #else
-    SetTargetFPS(60);
-
+#ifdef PLATFORM_WEB
+    emscripten_set_main_loop(UpdateFrame, 0, 1);
+#else
     // Main game loop
-    while (!WindowShouldClose()){    // Detect window close button or ESC key
+    while (!current_app_state->stop_app()){    // Detect window close button or ESC key
         MainUpdate();
     }
-    #endif
+#endif
 
     MainClose();
     return 0;
